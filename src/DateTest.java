@@ -1,19 +1,11 @@
+import java.time.LocalDate;
 
 public class DateTest {
 
 	public static void main(String[] args) {
 
-		// Do NOT use any of the java time/date functions!
-		// Start with all lines commented:
-		//     mark lines and "add block comment": ctrl-/ aka ctrl-shift-7
-		// Loop:
-		//     Uncomment one line and make it work
-		// IntelliJ is your friend: "quick fix"
-
-		Date d1 = new Date(); // defaults to January 1, 1900
-		// Output is in "English" -- d1 is January 1, 1900
-		// Hint: static final String[] monthNames = ...
-	/*	System.out.println("d1 is " + d1 + " [ January 1, 1900 ]"); // always: [ correct solution ]
+		Date d1 = new Date();
+		System.out.println("d1 is " + d1 + " [ January 1, 1900 ]");
 
 		System.out.println("d1.isLeapYear() is " + d1.isLeapYear() + " [ false ]");
 		System.out.println("d1.lastDayInMonth() is " + d1.lastDayInMonth() + " [ 31 ]");
@@ -21,11 +13,11 @@ public class DateTest {
 		// Mind the order of the parameters!
 		Date d2 = new Date(12, 27, 2015); // December 27, 2015
 		System.out.println("\nd2 is " + d2 + " [ December 27, 2015 ]");
+
 		Date d3 = new Date(0, 99, 8045); // invalid date -> January 1, 1900
 		System.out.println("d3 is " + d3 + " [ January 1, 1900 ]");
 
-		d3.setDate(2, 28, 2012); // same as Date() - try use to use
-                                 //   Refactor/Extract Method
+		d3.setDate(2, 28, 2012);
 
 		System.out.println("\nd3 is " + d3 + " [ February 28, 2012 ]");
 		System.out.println("d3.lastDayInMonth() is " + d3.lastDayInMonth() + " [ 29 ]");
@@ -43,9 +35,9 @@ public class DateTest {
 
 		Date d4 = new Date(2, 29, 2012);
 		if (d4.equals(d3)) {
-			System.out.println("d4 equals d3" + " [ OK ]");
+			System.out.println("\nd4 equals d3" + " [ OK ]");
 		} else {
-			System.out.println("d4 equals not d3"  + " [ FAIL ]");
+			System.out.println("\nd4 equals not d3"  + " [ FAIL ]");
 		}
 
 		// Special cases
@@ -63,15 +55,16 @@ public class DateTest {
 		System.out.println("s6 = " + s6 + " [ February 29, 2000 ]");
 
 
-		// Bonus:
+
 		System.out.println("d4 - Day of year = " + d4.dayOfYear() + " [ 60 ]"); //  count from  January 1
 		System.out.println("d4 - Day of week = " + d4.dayOfWeek() + " [ 3 ]"); // 0-Sunday, 1-Monday,...,6-Saturday
-				// Hint: calculate (magicNumber + days since January 1, 1900) % 7
+
 
 		Date today = new Date(11, 26, 2019);
 		System.out.println("\ntoday = " + today);
 		System.out.println("today - Day of year = " + today.dayOfYear());
 		System.out.println("today - Day of week = " + today.dayOfWeek());
-		/**/
+
+
 	}
 }

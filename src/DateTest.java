@@ -1,68 +1,96 @@
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class DateTest {
+  @Test
+  void test000_Date0() {
+    Date d1 = new Date();
+    assertEquals("January 1, 1900", d1.toString());
+  }
 
-	public static void main(String[] args) {
+  @Test
+  void testToString_01_06() {
+    Date d_01 = new Date(1, 27, 2015);
+    assertEquals("January 27, 2015", d_01.toString());
 
-		Date d1 = new Date();
-		System.out.println("d1 is " + d1 + " [ January 1, 1900 ]");
+    Date d_02a = new Date(2, 28, 2000);
+    assertEquals("February 28, 2000", d_02a.toString());
 
-		System.out.println("d1.isLeapYear() is " + d1.isLeapYear() + " [ false ]");
-		System.out.println("d1.lastDayInMonth() is " + d1.lastDayInMonth() + " [ 31 ]");
+    Date d_02b = new Date(2, 29, 2000);
+    assertEquals("February 29, 2000", d_02b.toString());
 
-		// Mind the order of the parameters!
-		Date d2 = new Date(12, 27, 2015); // December 27, 2015
-		System.out.println("\nd2 is " + d2 + " [ December 27, 2015 ]");
+    Date d_03 = new Date(3, 1, 1900);
+    assertEquals("March 1, 1900", d_03.toString());
 
-		Date d3 = new Date(0, 99, 8045); // invalid date -> January 1, 1900
-		System.out.println("d3 is " + d3 + " [ January 1, 1900 ]");
+    Date d_04 = new Date(4, 1, 2021);
+    assertEquals("April 1, 2021", d_04.toString());
 
-		d3.setDate(2, 28, 2012);
+    Date d_05 = new Date(5, 31, 2022);
+    assertEquals("May 31, 2022", d_05.toString());
 
-		System.out.println("\nd3 is " + d3 + " [ February 28, 2012 ]");
-		System.out.println("d3.lastDayInMonth() is " + d3.lastDayInMonth() + " [ 29 ]");
+    Date d_06 = new Date(6, 16, 1997);
+    assertEquals("June 16, 1997", d_06.toString());
+  }
 
-		d3.inc(); // increment to next day (changes d3)
-		System.out.println("d3.inc() is " + d3 + " (leap year allows 29th)" + " [ February 29, 2012 ]");
+  @Test
+  void testInc() {
+    Date d3 = new Date(2, 28, 2012);
+    d3.inc();
+    assertEquals("February 29, 2012", d3.toString());
+    Date d2 = new Date(12, 27, 2015);
+    d2.inc(7);
+    assertEquals("January 3, 2016", d2.toString());
+    Date d1 = new Date();
+    d1.inc(43734);
+    assertEquals("September 28, 2019", d1.toString());
+  }
 
-		d2.inc(7); // increment 7 days (changes d2)
-		System.out.println("\nd2.inc(7) is " + d2 + " [ January 3, 2016 ]");
+  @Test
+  void isLeapYear() {
+    Date d1 = new Date();
+      assertFalse(d1.isLeapYear());
+  }
 
-		System.out.println("\nd1 = " + d1 + " [ January 1, 1900 ]");
-		d1.inc(43734);
-		System.out.println("   + 43734 days is " + d1 + " [ September 28, 2019 ]"); // how to check the
-														// result?
+  @Test
+  void lastDayInMonth() {
+    Date d1 = new Date();
+    assertEquals(31, d1.lastDayInMonth());
+    Date d2 = new Date(1, 12, 2000);
+    d2.setDate(2, 28, 2012);
+    assertEquals("February 28, 2012", d2.toString());
+    assertEquals(29, d2.lastDayInMonth());
+  }
 
-		Date d4 = new Date(2, 29, 2012);
-		if (d4.equals(d3)) {
-			System.out.println("\nd4 equals d3" + " [ OK ]");
-		} else {
-			System.out.println("\nd4 equals not d3"  + " [ FAIL ]");
-		}
+  @Test
+  void testEquals() {
+    Date d3 = new Date(2, 28, 2012);
+    d3.inc();
+    Date d4 = new Date(2, 29, 2012);
+      assertTrue(d3.equals(d4));
+    Date d5 = new Date(2, 27, 2013);
+      assertFalse(d3.equals(d5));
+  }
 
-		// Special cases
-		Date s1 = new Date(0, 2, 2000); // bad
-		System.out.println("\ns1 = " + s1 + " [ January 1, 1900 ]");
-		Date s2 = new Date(13, 2, 2000); // bad
-		System.out.println("s2 = " + s2 + " [ January 1, 1900 ]");
-		Date s3 = new Date(2, 0, 2000); // bad
-		System.out.println("s3 = " + s3 + " [ January 1, 1900 ]");
-		Date s4 = new Date(32, 3, 2000); // bad
-		System.out.println("s4 = " + s4 + " [ January 1, 1900 ]");
-		Date s5 = new Date(2, 29, 1900); // bad
-		System.out.println("s5 = " + s5 + " [ January 1, 1900 ]");
-		Date s6 = new Date(2, 29, 2000); // ok
-		System.out.println("s6 = " + s6 + " [ February 29, 2000 ]");
+  @Test
+  void dayOfYear() {
+    Date d1 = new Date(2, 29, 2012);
+    assertEquals(60, d1.dayOfYear());
+  }
 
+  @Test
+  void dayOfWeek() {
+    Date d1 = new Date(2, 29, 2012);
+    assertEquals(3, d1.dayOfWeek());
+  }
 
+  @Test
+  void illegalDates() {
+    assertThrows (IllegalArgumentException.class, () -> new Date(0, 9, 2022)); ////
+    assertThrows (IllegalArgumentException.class, () -> new Date(13, 9, 2022)); ////
+    assertThrows (IllegalArgumentException.class, () -> new Date(4, 31, 2022)); ////
+    assertThrows (IllegalArgumentException.class, () -> new Date(2, 29, 1900)); ////
+    assertThrows (IllegalArgumentException.class, () -> new Date(2, 0, 1900)); ////
+  }
 
-		System.out.println("d4 - Day of year = " + d4.dayOfYear() + " [ 60 ]"); //  count from  January 1
-		System.out.println("d4 - Day of week = " + d4.dayOfWeek() + " [ 3 ]"); // 0-Sunday, 1-Monday,...,6-Saturday
-
-
-		Date today = new Date(11, 26, 2019);
-		System.out.println("\ntoday = " + today);
-		System.out.println("today - Day of year = " + today.dayOfYear());
-		System.out.println("today - Day of week = " + today.dayOfWeek());
-
-
-	}
 }
